@@ -19,19 +19,10 @@ class KMeans_Cluster:
 
 			#POPULATING EMPTY CLASSIFICATION SET
 			for featureset in data:
-				#CALCULATE ECULIDEAN DISTANCE BETWEEN CENTROIDS AND DATA POINTS: ONE DATA POINTS DISTANCE IS CALCULATED WITH ALL THE CENTROIDS
 				distances = [np.linalg.norm(featureset-self.centroids[centroid]) for centroid in self.centroids]
-				"""
-				for centroid in self.centroids:
-					print("{} - {}".format(featureset, self.centroids[centroid]))
-					distances = [np.linalg.norm(featureset-self.centroids[centroid])]
-					print(distances)
-				"""
-				#GET INDEX OF MINIMUM DISTANCE
 				classification = distances.index(min(distances))
 				self.classifications[classification].append(featureset)
 
-			#UPDATE CENTROIDS
 			prev_centroids = dict(self.centroids)
 			for classification in self.classifications:
 				self.centroids[classification] = np.average(self.classifications[classification], axis=0)
@@ -42,21 +33,9 @@ class KMeans_Cluster:
 				original_centroid = prev_centroids[c]
 				current_centroid = self.centroids[c]
 				if np.sum((current_centroid - original_centroid)/original_centroid*100.0) > self.tol:
-					#print("-"*25)
-					#print("Moving by {} %".format(np.sum((current_centroid - original_centroid)/original_centroid*100.0)))
 					optimized = False
 			if optimized:
 				return each_iter+1, self.centroids, self.classifications
-
-			"""
-			prev_centroids = [arg for arg in self.centroids.values()]
-			#TERMINATING LOOP CONDITIONS
-			cur_centroids = [arg for arg in self.centroids.values()]
-			if np.array_equal(prev_centroids,cur_centroids):
-				return (each_iter+1, self.centroids, self.classifications)
-			else:
-				continue
-			"""
 
 	def predict(self, data, centroids):
 		distances = [np.linalg.norm(data-centroids[centroid]) for centroid in centroids]
