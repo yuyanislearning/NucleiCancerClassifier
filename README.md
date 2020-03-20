@@ -3,8 +3,8 @@ For class BE223B
 
 
 ## Task split
-Henry: Cell Graph Features
+Henry: Texture Features
 
-Anil: Texture Features
+Anil: Graph Features
 
 Yu: Classifier
