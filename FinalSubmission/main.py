@@ -39,7 +39,7 @@ def createFeatures(path_to_centroids, path_to_mask_csvs, path_to_tiles, label_fi
 					#WRITING OUT FILE HEADER
 					if index == 0:
 						graph_header = graph_obj.extractedFeatures
-						radiomics_header = ['rf_{}'.format(count) for count in range(len(radiomics_features))]
+						radiomics_header = ['{}'.format(count+1) for count in range(len(radiomics_features))]
 						graph_header.insert(0,'slide_id')
 						graph_header.extend(radiomics_header)
 
