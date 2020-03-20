@@ -6,6 +6,8 @@ from create_graph import *
 from radiomicsfinal import *
 from prediction import *
 import csv
+import argparse
+
 
 def createFeatures(path_to_centroids, path_to_mask_csvs, path_to_tiles, label_file=None):
 	masks_csvs = [f for f in listdir(path_to_mask_csvs) if isfile(join(path_to_mask_csvs, f))]
@@ -82,24 +84,24 @@ path_to_label = "data\\tiles_rois\\dataset.csv"
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser()
 	parser.add_argument("--path_to_train_centroids", default=path_to_centroids, type=str, required=False,
-                        help="The path to dir of train mask csv.")
+						help="The path to dir of train mask csv.")
 	parser.add_argument("--path_to_test_centroids", default=path_to_centroids, type=str, required=False,
-                        help="The path to dir of train mask csv.")
+						help="The path to dir of train mask csv.")
 	parser.add_argument("--path_to_train_mask_csvs", default=path_to_mask_csvs, type=str, required=False,
-                        help="The path to dir of train mask csv.")
+						help="The path to dir of train mask csv.")
 	parser.add_argument("--path_to_test_mask_csvs", default=path_to_mask_csvs, type=str, required=False,
-                        help="The path to dir of test mask csv.")
+						help="The path to dir of test mask csv.")
 	parser.add_argument("--path_to_test_tiles", default=path_to_tiles, type=str, required=False,
-                        help="The path to test tiles.")
+						help="The path to test tiles.")
 	parser.add_argument("--path_to_train_tiles", default=path_to_tiles, type=str, required=False,
-                        help="The path to train tiles.")
+						help="The path to train tiles.")
 	parser.add_argument("--path_to_label", default=path_to_label, type=str, required=False,
-                        help="The path to label.")
+						help="The path to label.")
 	args = parser.parse_args()
-    if not os.path.exists('train_features.csv') and not os.path.exists('test_features.csv'):
-        createFeatures(args.path_to_train_centroids, args.path_to_train_mask_csvs, args.path_to_train_tiles, args.path_to_label)
-        createFeatures(args.path_to_test_centroids, args.path_to_test_mask_csvs, args.path_to_test_tiles, None)
-    predict('train_features.csv', 'test_features.csv')
+	if not os.path.exists('train_features.csv') and not os.path.exists('test_features.csv'):
+		createFeatures(args.path_to_train_centroids, args.path_to_train_mask_csvs, args.path_to_train_tiles, args.path_to_label)
+		createFeatures(args.path_to_test_centroids, args.path_to_test_mask_csvs, args.path_to_test_tiles, None)
+	predict('train_features.csv', 'test_features.csv')
 
 
 
