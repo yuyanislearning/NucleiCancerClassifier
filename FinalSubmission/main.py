@@ -4,6 +4,7 @@ from os.path import isfile, join
 from skimage import io
 from create_graph import *
 from radiomicsfinal import *
+from prediction import *
 import csv
 
 def createFeatures(path_to_centroids, path_to_mask_csvs, path_to_tiles, label_file=None):
@@ -39,7 +40,7 @@ def createFeatures(path_to_centroids, path_to_mask_csvs, path_to_tiles, label_fi
 					#WRITING OUT FILE HEADER
 					if index == 0:
 						graph_header = graph_obj.extractedFeatures
-						radiomics_header = ['{}'.format(count+1) for count in range(len(radiomics_features))]
+						radiomics_header = ['rf_{}'.format(count) for count in range(len(radiomics_features))]
 						graph_header.insert(0,'slide_id')
 						graph_header.extend(radiomics_header)
 
@@ -72,11 +73,13 @@ def create_old_feature_dict(label_csv):
 	return new_dict
 
 #SET PATH FOR FILES
-path_to_centroids = "PATH_TO_CENTORIDS"
-path_to_mask_csvs = "PATH_TO_MAKS"
-path_to_tiles = "PATH_TO_TILES"
+path_to_centroids = "data\\centroids\\"
+path_to_mask_csvs = "data\\masks_512x512\\"
+path_to_tiles = "data\\tiles_rois\\normalized\\"
 #FOR TEST DATA, SET 'path_to_label=None'
-path_to_label = None
+path_to_label = "data\\tiles_rois\\dataset.csv"
 
 if __name__ == "__main__":
-	createFeatures(path_to_centroids, path_to_mask_csvs, path_to_tiles, path_to_label)
+    if not os.path.exists('train_features.csv') and not os.path.exists('test_features.csv'):
+        createFeatures(path_to_centroids, path_to_mask_csvs, path_to_tiles, path_to_label)
+    predict('train_features.csv', 'test_features.csv')
