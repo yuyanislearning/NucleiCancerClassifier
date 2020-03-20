@@ -80,6 +80,28 @@ path_to_tiles = "data\\tiles_rois\\normalized\\"
 path_to_label = "data\\tiles_rois\\dataset.csv"
 
 if __name__ == "__main__":
+	parser = argparse.ArgumentParser()
+	parser.add_argument("--path_to_train_centroids", default=path_to_centroids, type=str, required=False,
+                        help="The path to dir of train mask csv.")
+	parser.add_argument("--path_to_test_centroids", default=path_to_centroids, type=str, required=False,
+                        help="The path to dir of train mask csv.")
+	parser.add_argument("--path_to_train_mask_csvs", default=path_to_mask_csvs, type=str, required=False,
+                        help="The path to dir of train mask csv.")
+	parser.add_argument("--path_to_test_mask_csvs", default=path_to_mask_csvs, type=str, required=False,
+                        help="The path to dir of test mask csv.")
+	parser.add_argument("--path_to_test_tiles", default=path_to_tiles, type=str, required=False,
+                        help="The path to test tiles.")
+	parser.add_argument("--path_to_train_tiles", default=path_to_tiles, type=str, required=False,
+                        help="The path to train tiles.")
+	parser.add_argument("--path_to_label", default=path_to_label, type=str, required=False,
+                        help="The path to label.")
+	args = parser.parse_args()
     if not os.path.exists('train_features.csv') and not os.path.exists('test_features.csv'):
-        createFeatures(path_to_centroids, path_to_mask_csvs, path_to_tiles, path_to_label)
+        createFeatures(args.path_to_train_centroids, args.path_to_train_mask_csvs, args.path_to_train_tiles, args.path_to_label)
+        createFeatures(args.path_to_test_centroids, args.path_to_test_mask_csvs, args.path_to_test_tiles, None)
     predict('train_features.csv', 'test_features.csv')
+
+
+
+
+
